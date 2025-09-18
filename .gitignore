@@ -1,40 +1,7 @@
-# 🛠️ Build artifacts
-/build/
-/bin/
-/*.o
-/*.so
-/*.exe
-*.out
-
-# 🧱 CMake files
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-
-# 📦 SFML dependencies (via FetchContent)
-_deps/
-
-# 🧠 Neovim swap/undo files
-*.swp
-*.swo
-*.un~
-*.bak
-
-# 🧰 Lazygit config (se locale)
-.lazygit/
-
-# 🧑‍💻 IDE/editor configs
-.vscode/
-.idea/
-*.code-workspace
-
-# 🗑️ System files
-.DS_Store
-Thumbs.db
-
-# 🧪 Test logs or temp files
-*.log
-*.tmp
-*.test
-
+# Ignora tutto tranne src/ e include/
+*
+!src/
+!include/
+!CMakeLists.txt
+!main.cpp
+!README.md
