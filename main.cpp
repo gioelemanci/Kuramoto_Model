@@ -121,7 +121,7 @@ int main() {
 
 	graphicSimulation(sim);
 
-	//saveAnalysis(sim, "");
+	saveAnalysis(sim, "");
 
 	//test();
 

@@ -8,17 +8,17 @@
 namespace km::paths {
     namespace fs = std::filesystem;
 
-    // Directory principale dei dati analizzati
+    // Root directory of analyzed data
     static const fs::path root = fs::current_path() / "analysis_data";
 
-    // Sottocartelle tematiche
+    // Subdirectories
     static const fs::path phasesDir = root / "phases";
     static const fs::path orderParamDir = root / "order_parameters";
     static const fs::path freqDir = root / "frequencies";
     static const fs::path lockedDir = root / "locked";
     static const fs::path driftingDir = root / "drifting";
 
-    // Crea tutte le cartelle necessarie
+    // Ensure that all necessary directories exist
     inline void ensureDirectoriesExist() {
         fs::create_directories(phasesDir);
         fs::create_directories(orderParamDir);
@@ -27,7 +27,7 @@ namespace km::paths {
         fs::create_directories(driftingDir);
     }
 
-    // Restituisce il path completo per un file
+    // Returns file path for central management
     inline fs::path getFilePath(const fs::path& dir, const std::string& filename) {
         return dir / filename;
     }
