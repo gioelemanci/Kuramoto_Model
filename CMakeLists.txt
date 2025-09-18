@@ -34,14 +34,3 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
-
-if(WIN32 AND NOT SFML_STATIC_LIBRARIES)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:sfml-graphics>
-            $<TARGET_FILE:sfml-window>
-            $<TARGET_FILE:sfml-system>
-            $<TARGET_FILE:sfml-audio>
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    )
-endif()
