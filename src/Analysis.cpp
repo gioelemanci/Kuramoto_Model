@@ -1,4 +1,5 @@
 #include "Analysis.h"
+#include "Paths.h"
 
 #include <cmath>
 #include <complex>
@@ -41,11 +42,10 @@ namespace km {
 
     void KuramotoAnalysis::saveOrderParameter(const Simulation sim, const std::string& filename) {
         auto phases = sim.getPhases();
-		std::string filepath = projectDir + filename;
+		std::ofstream file(km::paths::getFilePath(km::paths::orderParamDir, filename));
 
-        std::ofstream file(filepath);
         if (!file.is_open()) {
-            std::cerr << "Error while opening the file " << filepath << std::endl;
+            std::cerr << "Error while opening the file " << filename << std::endl;
             return;
         }
 
@@ -60,11 +60,10 @@ namespace km {
 
     void KuramotoAnalysis::savePhaseDistribution(const Simulation sim, const std::string& filename) {
         auto phases = sim.getPhases()[0];
-        std::string filepath = projectDir + filename;
-
-        std::ofstream file(filepath);
+        std::ofstream file(km::paths::getFilePath(km::paths::phasesDir, filename));
+        
         if (!file.is_open()) {
-            std::cerr << "Error while opening the file " << filepath << std::endl;
+            std::cerr << "Error while opening the file " << filename << std::endl;
             return;
         }
 
@@ -81,11 +80,10 @@ namespace km {
         int numOscillators = phases[0].size();
         int numTimesteps = phases.size();
 
-        std::string filepath = projectDir + filename;
+        std::ofstream file(km::paths::getFilePath(km::paths::freqDir, filename));
 
-        std::ofstream file(filepath);
         if (!file.is_open()) {
-            std::cerr << "Error while opening the file " << filepath << std::endl;
+            std::cerr << "Error while opening the file " << filename << std::endl;
             return;
         }
 
@@ -101,12 +99,10 @@ namespace km {
         auto phases = sim.getPhases();
         int numTimesteps = phases.size();
         int numOscillators = phases[0].size();
-        std::string filepath = projectDir + filename;
-
-        std::ofstream file(filepath);
+        std::ofstream file(km::paths::getFilePath(km::paths::phasesDir, filename));
 
         if (!file.is_open()) {
-            std::cerr << "Error while opening the file " << filepath << std::endl;
+            std::cerr << "Error while opening the file " << filename << std::endl;
             return;
         }
 
@@ -164,8 +160,9 @@ namespace km {
         }
 
         // Output file for locked
-        std::ofstream lockedPhasesFile(projectDir + filename + "_locked_phases.txt");
-        std::ofstream lockedOrderParamFile(projectDir + filename + "_locked_order_parameter.txt");
+        std::ofstream lockedPhasesFile(km::paths::getFilePath(km::paths::lockedDir, filename + "_locked_phases.txt"));
+        std::ofstream lockedOrderParamFile(km::paths::getFilePath(km::paths::lockedDir, filename + "_locked_order_parameter.txt"));
+
 
         if (!lockedPhasesFile.is_open() || !lockedOrderParamFile.is_open()) {
             std::cerr << "Error opening file for locked oscillators." << std::endl;
@@ -202,8 +199,9 @@ namespace km {
         lockedOrderParamFile.close();
 
         // Output file for drifting
-        std::ofstream driftingPhasesFile(projectDir + filename + "_drifting_phases.txt");
-        std::ofstream driftingOrderParamFile(projectDir + filename + "_drifting_order_parameter.txt");
+        std::ofstream driftingPhasesFile(km::paths::getFilePath(km::paths::driftingDir, filename + "_drifting_phases.txt"));
+        std::ofstream driftingOrderParamFile(km::paths::getFilePath(km::paths::driftingDir, filename + "_drifting_order_parameter.txt"));
+
 
         if (!driftingPhasesFile.is_open() || !driftingOrderParamFile.is_open()) {
             std::cerr << "Error opening file for drifting oscillators." << std::endl;
@@ -239,8 +237,10 @@ namespace km {
         driftingPhasesFile.close();
         driftingOrderParamFile.close();
 
-        std::cout << "Locked oscillators: " << lockedOscillators.size() << " saved in " << filename + "_locked_phases.txt" << std::endl;
-        std::cout << "Drifting oscillators: " << driftingOscillators.size() << " saved in " << filename + "_drifting_phases.txt" << std::endl;
+        std::cout << "Locked oscillators: " << lockedOscillators.size()
+          << " saved in " << km::paths::getFilePath(km::paths::lockedDir, filename + "_locked_phases.txt") << std::endl;
+        std::cout << "Drifting oscillators: " << driftingOscillators.size()
+          << " saved in " << km::paths::getFilePath(km::paths::driftingDir, filename + "_drifting_phases.txt") << std::endl;
     }
 
     void KuramotoAnalysis::saveByFrequencyGroups(const Simulation& sim, const std::vector<double>& natFreqs, const std::string& filename) {
@@ -280,8 +280,9 @@ namespace km {
             std::string freqStr = std::to_string(freq);
             std::replace(freqStr.begin(), freqStr.end(), '.', '_'); // Ensure valid filename format
 
-            std::ofstream phaseFile(projectDir + filename + "_freq_" + freqStr + "_phases.txt");
-            std::ofstream orderParamFile(projectDir + filename + "_freq_" + freqStr + "_order_parameter.txt");
+            std::ofstream phaseFile(km::paths::getFilePath(km::paths::phasesDir, filename + "_freq_" + freqStr + "_phases.txt"));
+            std::ofstream orderParamFile(km::paths::getFilePath(km::paths::orderParamDir, filename + "_freq_" + freqStr + "_order_parameter.txt"));
+
 
             if (!phaseFile.is_open() || !orderParamFile.is_open()) {
                 std::cerr << "Error opening files for frequency " << freq << std::endl;
@@ -322,9 +323,10 @@ namespace km {
             phaseFile.close();
             orderParamFile.close();
 
-            std::cout << "Saved phases and order parameter for freq " << freq << " in files: "
-                << filename + "_freq_" + freqStr + "_phases.txt" << " and "
-                << filename + "_freq_" + freqStr + "_order_parameter.txt" << std::endl;
+            std::cout << "Saved phases and order parameter for freq " << freq << " in files:\n"
+          << km::paths::getFilePath(km::paths::phasesDir, filename + "_freq_" + freqStr + "_phases.txt") << "\n"
+          << km::paths::getFilePath(km::paths::orderParamDir, filename + "_freq_" + freqStr + "_order_parameter.txt") << std::endl;
+
         }
     }
 

@@ -3,6 +3,7 @@
 #include "SimulationPresets.h"
 #include "Graphics.h"
 #include "Analysis.h"
+#include "Paths.h"
 #include "CouplingFunctions.hpp"
 #include "FrequencyDistributions.hpp"
 #include "test_oscillator.hpp"
@@ -54,6 +55,7 @@ void graphicSimulation(km::Simulation sim) {
 }
 
 void saveAnalysis(km::Simulation sim, std::string plus) {
+	km::paths::ensureDirectoriesExist();
     km::KuramotoAnalysis analysis;
 
 	std::cout << "Saving simulation parameters...\n";
@@ -130,6 +132,3 @@ int main() {
 
     return 0;
 }
-
-
-
