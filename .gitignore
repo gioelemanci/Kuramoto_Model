@@ -1,8 +1,10 @@
-# Ignore all files by default
+# Ignore everything by default
 *
-!src/
-!include/
-!test/
+
+# Allow source and config files
+!src/**
+!include/**
+!test/**
 !CMakeLists.txt
 !main.cpp
 !README.md

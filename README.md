@@ -58,6 +58,17 @@ On Windows (PowerShell):
 .\build\bin\Kuramoto_Model
 ```
 
+## 📌 Project Structure
+'''
+Kuramoto_Model/
+├── src/                # Core implementation (.cpp)
+├── include/            # Header files (.h/.hpp)
+├── test/               # Unit tests
+├── main.cpp            # Entry point
+├── test_main.cpp       # Test runner
+├── CMakeLists.txt      # Build configuration
+'''
+
 ## 📁 Output Structure
 
 Simulation results are automatically saved to:
