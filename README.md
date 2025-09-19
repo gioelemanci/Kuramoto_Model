@@ -55,19 +55,20 @@ cmake --build build
 On Windows (PowerShell):
 
 ```bash
-.\build\bin\Kuramoto_Model
+.\build_and_run.bat
 ```
 
 ## 📌 Project Structure
-'''
+```
 Kuramoto_Model/
-├── src/                # Core implementation (.cpp)
-├── include/            # Header files (.h/.hpp)
+├── src/                # Core implementation
+├── include/            # Header files
 ├── test/               # Unit tests
 ├── main.cpp            # Entry point
-├── test_main.cpp       # Test runner
 ├── CMakeLists.txt      # Build configuration
-'''
+├── build_and_run.bat   # Windows build
+
+```
 
 ## 📁 Output Structure
 
