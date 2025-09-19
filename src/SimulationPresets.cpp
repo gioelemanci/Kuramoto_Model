@@ -12,7 +12,7 @@ namespace km{
 			km::sinusoidalCoupling, // Sinusoidal coupling function (kuramoto standard)
 			km::uniformFrequency, // Uniform frequency distribution
 			1.8, // Global coupling strength
-			1000 }; // Number of oscillators
+			100 }; // Number of oscillators
 
 		// Create the simulation
 		Simulation sim = Simulation(dt, maxSteps, model);

@@ -6,10 +6,6 @@
 #include "Paths.h"
 #include "CouplingFunctions.hpp"
 #include "FrequencyDistributions.hpp"
-#include "test_oscillator.hpp"
-#include "test_kuramoto.hpp"
-#include "test_simulation.hpp"
-#include "test_frequency_distributions.hpp"
 
 #include <iostream>
 #include <cstdlib>
@@ -23,29 +19,6 @@ void stepByStep(km::Simulation sim, int lastStep) {
         std::cout << "Step " << step << " completato\n";
         sim.update();
     }
-}
-
-void test() {
-    std::cout << "Running tests...\n";
-    std::cout << "-------------------------\n";
-
-    // Test Oscillator classes
-    km::testOscillator();
-    std::cout << "-------------------------\n";
-
-    // Test Kuramoto Model
-    km::testKuramoto();
-    std::cout << "-------------------------\n";
-
-    // Test Simulation
-    km::testSimulation();
-    std::cout << "-------------------------\n";
-
-    // Test Frequency Distributions
-    km::testFrequencyDistributions();
-    std::cout << "-------------------------\n";
-
-    std::cout << "All tests completed!\n";
 }
 
 void graphicSimulation(km::Simulation sim) {
@@ -64,10 +37,10 @@ void saveAnalysis(km::Simulation sim, std::string plus) {
 	analysis.saveOrderParameter(sim, "order_parameter" + plus + ".txt");
 
 	// Save phase distribution
-	//analysis.savePhaseDistribution(sim, "phase_distribution" + plus + ".txt");
+	analysis.savePhaseDistribution(sim, "phase_distribution" + plus + ".txt");
 
 	// Save mean frequencies
-	//analysis.saveMeanFrequencies(sim, "mean_frequencies" + plus + ".txt");
+	analysis.saveMeanFrequencies(sim, "mean_frequencies" + plus + ".txt");
 
 	// Save phases
 	analysis.savePhases(sim, "phases" + plus + ".txt");
@@ -77,7 +50,7 @@ void saveAnalysis(km::Simulation sim, std::string plus) {
 
 	// Save by frequency groups
 	std::vector<double> freqs = {0.5, 1.0, 1.5, 2.0};
-	//analysis.saveByFrequencyGroups(sim, freqs, plus);
+	analysis.saveByFrequencyGroups(sim, freqs, plus);
 
 	std::cout << "Analysis saved.\n";
 }
@@ -108,23 +81,20 @@ int main() {
     // Simulation parameters
     double dt = 0.1;
     int maxSteps = 250;
-    km::Simulation sim = km::sim4(dt, maxSteps);
+    km::Simulation sim = km::sim0(dt, maxSteps);
     
     std::cout << "Initialization completed! " << sim.getModel()->getNumOscillators() << " oscillators created.\n\n";
 
 	// Run the simulation
-	//sim.run();
+	sim.run();
 
 	//multipleCouplingSimulation(sim);
 
 	//stepByStep(sim, maxSteps);
 
-	graphicSimulation(sim);
+	//graphicSimulation(sim);
 
 	saveAnalysis(sim, "");
-
-	//test();
-
 
     std::cout << "Simulation completed.\n\n";
 
