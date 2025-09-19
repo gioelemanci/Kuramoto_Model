@@ -71,8 +71,8 @@ namespace km{
 			[]() {return std::make_shared<km::StdOscillator>();}, // Standard oscillator
 			km::sinusoidalCoupling, // Sinusoidal coupling function (kuramoto standard)
 			km::normalFrequency(0, .2), // Gaussian frequency distribution
-			1, // Global coupling strength
-			1000 }; // Number of oscillators
+			.6, // Global coupling strength
+			100 }; // Number of oscillators
 		// Create the simulation
 		Simulation sim = Simulation(dt, maxSteps, model);
 		sim.setup(params);

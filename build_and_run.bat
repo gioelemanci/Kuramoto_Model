@@ -21,6 +21,6 @@ cd %BIN_DIR%
 .\Kuramoto_Model.exe
 
 echo [4.1] Running tests...
-.\Kuramoto_Model_tests.exe
+.\Kuramoto_Model_test.exe
 
 endlocal

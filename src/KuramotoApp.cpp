@@ -8,6 +8,12 @@
 #include <vector>
 
 void KuramotoApp::run(int argc, char* argv[]) {
+    if (argc > 2) {
+        presetIndex = std::stoi(argv[2]);
+    } else {
+        selectPreset();
+    }
+
     if (argc > 1) {
         std::string mode = argv[1];
         if (mode == "graphic") runGraphic();
@@ -21,6 +27,43 @@ void KuramotoApp::run(int argc, char* argv[]) {
         promptUser();
     }
 }
+
+
+void KuramotoApp::selectPreset() {
+    std::cout << "Select simulation preset:\n";
+    std::cout << "0. Standard oscillator, uniform frequency\n";
+    std::cout << "1. Double oscillator, uniform frequency\n";
+    std::cout << "2. Standard oscillator, custom frequency list\n";
+    std::cout << "3. Standard oscillator, Gaussian frequency\n";
+    std::cout << "4. Standard oscillator, Lorentzian frequency\n";
+    std::cout << "5. Double oscillator, Lorentzian frequency\n";
+    std::cout << "6. Standard oscillator, bimodal frequency\n";
+    std::cout << "7. Double oscillator, Gaussian frequency\n";
+    std::cout << "Choice [0-7]: ";
+
+    std::cin >> presetIndex;
+    if (presetIndex < 0 || presetIndex > 7) {
+        std::cerr << "Invalid preset. Defaulting to sim0.\n";
+        presetIndex = 0;
+    }
+}
+
+km::Simulation KuramotoApp::createSimulation() const {
+    double dt = 0.1;
+    int maxSteps = 250;
+
+    switch (presetIndex) {
+        case 1: return km::sim1(dt, maxSteps);
+        case 2: return km::sim2(dt, maxSteps);
+        case 3: return km::sim3(dt, maxSteps);
+        case 4: return km::sim4(dt, maxSteps);
+        case 5: return km::sim5(dt, maxSteps);
+        case 6: return km::sim6(dt, maxSteps);
+        case 7: return km::sim7(dt, maxSteps);
+        default: return km::sim0(dt, maxSteps);
+    }
+}
+
 
 void KuramotoApp::promptUser() {
     std::cout << "Select simulation mode:\n";
@@ -59,29 +102,25 @@ void KuramotoApp::saveAnalysis(const km::Simulation& sim, const std::string& suf
 }
 
 void KuramotoApp::runGraphic() {
-    km::Simulation sim = km::sim0(0.1, 250);
+    km::Simulation sim = createSimulation();
     std::cout << "Starting graphic simulation...\n";
     km::Graphics graphics(sim.getModel()->getNumOscillators());
     graphics.run(sim);
     std::cout << "Graphic simulation completed.\n";
-
-    saveAnalysis(sim, "_graphic");
 }
 
 void KuramotoApp::runStepByStep() {
-    km::Simulation sim = km::sim0(0.1, 250);
+    km::Simulation sim = createSimulation();
     std::cout << "Starting step-by-step simulation...\n";
     for (int step = 0; step < 250; ++step) {
         std::cout << "Step " << step << " completed\n";
         sim.update();
     }
     std::cout << "Step-by-step simulation completed.\n";
-
-    saveAnalysis(sim, "_step");
 }
 
 void KuramotoApp::runMultiCoupling() {
-    km::Simulation sim = km::sim0(0.1, 250);
+    km::Simulation sim = createSimulation();
     std::vector<double> couplings = {0.1, 0.2, 0.3, 0.4, 0.5};
     std::cout << "Starting multiple coupling simulations...\n";
     for (double c : couplings) {
@@ -99,7 +138,7 @@ void KuramotoApp::runMultiCoupling() {
 
 void KuramotoApp::runDefault() {
     std::cout << "Running default simulation...\n";
-    km::Simulation sim = km::sim0(0.1, 250);
+    km::Simulation sim = createSimulation();
     sim.run();
     std::cout << "Default simulation completed.\n";
 
