@@ -1,7 +1,8 @@
-# Ignora tutto tranne src/ e include/
+# Ignore all files by default
 *
 !src/
 !include/
+!test/
 !CMakeLists.txt
 !main.cpp
 !README.md
